@@ -1,7 +1,10 @@
 class Observable {
     provider;
 
-    constructor(provider = (subscribe) => subscribe(1)) {
+    constructor(provider) {
+        if (!provider) {
+            throw new Error('provider required')
+        }
         this.provider = provider;
     }
 
@@ -11,13 +14,11 @@ class Observable {
 }
 
 describe('observable', () => {
-    it('can be created to always give subscribers the number 1 once', () => {
+    it('throws an error if a provider is not provided at construction', () => {
         expect.assertions(1)
 
-        new Observable().subscribe(n => {
-            expect(n).toEqual(1);
-        })
-    })
+        expect(() => new Observable()).toThrow("provider required")
+    });
 
     it('can be created with a provider function', () => {
         expect.assertions(1)
