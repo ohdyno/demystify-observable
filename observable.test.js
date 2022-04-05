@@ -43,4 +43,21 @@ describe('observable', () => {
             done()
         })
     })
+
+    it('can be created with a provider function that provides multiple values', () => {
+        expect.assertions(1)
+
+        function provider(subscriber) {
+            subscriber(1);
+            subscriber(2);
+        }
+
+        const values = [];
+
+        new Observable(provider).subscribe(n => {
+            values.push(n)
+        })
+
+        expect(values).toEqual([1, 2])
+    })
 })
